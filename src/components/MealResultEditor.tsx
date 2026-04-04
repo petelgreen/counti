@@ -38,16 +38,37 @@ function MealItemCard({
               autoFocus
             />
           ) : (
-            <p className="text-sm font-semibold truncate" style={{ color: "var(--color-text-primary)" }}>
+            <p className="text-sm font-semibold" style={{ color: "var(--color-text-primary)" }}>
               {item.name || "פריט ללא שם"}
             </p>
           )}
-          <div className="flex gap-3 mt-1 flex-wrap">
+
+          {/* Quantity badge */}
+          {item.quantity && !editing && (
+            <span
+              className="inline-block text-xs font-medium px-2 py-0.5 rounded-lg mt-0.5 mb-1"
+              style={{ background: "var(--color-primary-light)", color: "var(--color-primary-dark)" }}
+            >
+              {item.quantity}
+            </span>
+          )}
+          {editing && (
+            <input
+              value={item.quantity ?? ""}
+              onChange={(e) => onUpdate("quantity", e.target.value)}
+              placeholder="כמות (כף, 100g...)"
+              className="w-full text-xs bg-transparent border-b focus:outline-none mb-1.5"
+              style={{ borderColor: "var(--color-border)", color: "var(--color-text-secondary)" }}
+            />
+          )}
+
+          {/* Macros */}
+          <div className="flex gap-3 flex-wrap">
             {(["calories", "protein_g", "carbs_g", "fat_g"] as (keyof MealItem)[]).map((field) => {
-              const labels: Record<keyof MealItem, string> = {
-                name: "", calories: "קק\"ל", protein_g: "חלב׳", carbs_g: "פחמ׳", fat_g: "שומן",
+              const labels: Record<string, string> = {
+                calories: "קק״ל", protein_g: "חלב׳", carbs_g: "פחמ׳", fat_g: "שומן",
               };
-              if (field === "name") return null;
+              if (field === "name" || field === "quantity") return null;
               return editing ? (
                 <label key={field} className="flex flex-col items-center gap-0.5">
                   <span className="text-xs" style={{ color: "var(--color-text-muted)" }}>{labels[field]}</span>
@@ -61,37 +82,37 @@ function MealItemCard({
                   />
                 </label>
               ) : (
-                <span key={field} className="text-xs" style={{ color: "var(--color-text-muted)" }}>
-                  {labels[field]} {Math.round(item[field] as number)}
-                  {field !== "calories" ? "g" : ""}
+                <span key={field} className="text-xs tabular-nums" style={{ color: "var(--color-text-muted)" }}>
+                  <span style={{ color: "var(--color-text-secondary)" }}>{labels[field]}</span>{" "}
+                  {Math.round(item[field] as number)}{field !== "calories" ? "g" : ""}
                 </span>
               );
             })}
           </div>
         </div>
 
-        <div className="flex items-center gap-1 shrink-0">
-          <div className="text-left">
-            <p className="text-base font-bold" style={{ color: "var(--color-text-primary)" }}>
+        {/* Calories + actions */}
+        <div className="flex items-center gap-1.5 shrink-0">
+          <div className="text-center min-w-[40px]">
+            <p className="text-lg font-black tabular-nums leading-none" style={{ color: "var(--color-text-primary)" }}>
               {Math.round(item.calories)}
             </p>
             <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>קק&quot;ל</p>
           </div>
-          <div className="flex flex-col gap-1 mr-1">
+          <div className="flex flex-col gap-1">
             <button
               onClick={() => setEditing(!editing)}
-              className="text-xs px-2 py-0.5 rounded-lg transition-colors"
+              className="text-xs px-2 py-1 rounded-lg transition-colors"
               style={{
-                background: editing ? "var(--color-primary-light)" : "var(--color-bg)",
+                background: editing ? "var(--color-primary-light)" : "var(--color-border)",
                 color: editing ? "var(--color-primary)" : "var(--color-text-muted)",
-                border: "1px solid var(--color-border)",
               }}
             >
-              {editing ? "סיים" : "ערוך"}
+              {editing ? "סיום" : "עדכן"}
             </button>
             <button
               onClick={onRemove}
-              className="text-xs px-2 py-0.5 rounded-lg transition-colors"
+              className="text-xs px-2 py-1 rounded-lg"
               style={{ background: "var(--color-bg)", color: "var(--color-danger)", border: "1px solid var(--color-border)" }}
             >
               הסר
@@ -110,7 +131,7 @@ export default function MealResultEditor({ result, inputText, onSave, onDiscard 
     const updated = [...items];
     updated[index] = {
       ...updated[index],
-      [field]: field === "name" ? raw : parseFloat(raw) || 0,
+      [field]: (field === "name" || field === "quantity") ? raw : parseFloat(raw) || 0,
     };
     setItems(updated);
   }
@@ -137,13 +158,13 @@ export default function MealResultEditor({ result, inputText, onSave, onDiscard 
     <div className="space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>
+        <p className="text-xs leading-relaxed flex-1 ml-3" style={{ color: "var(--color-text-muted)" }}>
           {result.assumptions}
         </p>
         <ConfidenceBadge confidence={result.confidence} />
       </div>
 
-      {/* Item cards */}
+      {/* Items */}
       <div className="space-y-2">
         {items.map((item, i) => (
           <MealItemCard
@@ -155,9 +176,10 @@ export default function MealResultEditor({ result, inputText, onSave, onDiscard 
         ))}
       </div>
 
+      {/* Add item */}
       <button
         onClick={addItem}
-        className="flex items-center gap-1.5 text-sm font-medium transition-colors"
+        className="flex items-center gap-1.5 text-sm font-semibold transition-colors"
         style={{ color: "var(--color-primary)" }}
       >
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -166,19 +188,17 @@ export default function MealResultEditor({ result, inputText, onSave, onDiscard 
         הוסף פריט
       </button>
 
-      {/* Totals summary */}
+      {/* Totals */}
       <div
         className="flex items-center justify-between px-4 py-3 rounded-2xl"
-        style={{ background: "var(--color-primary-light)", border: "1px solid #FFD6C0" }}
+        style={{ background: "var(--color-primary-light)", border: "1px solid var(--color-primary-mid)" }}
       >
-        <span className="text-sm font-semibold" style={{ color: "var(--color-primary-dark)" }}>
-          סה&quot;כ
-        </span>
+        <span className="text-sm font-bold" style={{ color: "var(--color-primary-dark)" }}>סה&quot;כ</span>
         <div className="flex gap-4 text-xs" style={{ color: "var(--color-primary-dark)" }}>
-          <span>ח׳ {Math.round(totals.protein_g)}g</span>
-          <span>פ׳ {Math.round(totals.carbs_g)}g</span>
-          <span>ש׳ {Math.round(totals.fat_g)}g</span>
-          <span className="font-bold text-sm">{Math.round(totals.calories)} קק&quot;ל</span>
+          <span className="tabular-nums">ח׳ {Math.round(totals.protein_g)}g</span>
+          <span className="tabular-nums">פ׳ {Math.round(totals.carbs_g)}g</span>
+          <span className="tabular-nums">ש׳ {Math.round(totals.fat_g)}g</span>
+          <span className="font-black text-base tabular-nums">{Math.round(totals.calories)} קק&quot;ל</span>
         </div>
       </div>
 
@@ -186,7 +206,7 @@ export default function MealResultEditor({ result, inputText, onSave, onDiscard 
       <div className="flex gap-3 pt-1">
         <button
           onClick={onDiscard}
-          className="flex-1 py-3 rounded-2xl text-sm font-semibold transition-colors"
+          className="flex-1 py-3 rounded-2xl text-sm font-semibold"
           style={{ border: "1.5px solid var(--color-border)", color: "var(--color-text-secondary)" }}
         >
           ביטול
@@ -194,8 +214,12 @@ export default function MealResultEditor({ result, inputText, onSave, onDiscard 
         <button
           onClick={() => onSave({ ...result, items, totals }, inputText)}
           disabled={items.length === 0}
-          className="flex-2 py-3 px-6 rounded-2xl text-sm font-semibold text-white transition-opacity disabled:opacity-40"
-          style={{ background: "var(--color-primary)", flex: 2 }}
+          className="py-3 px-6 rounded-2xl text-sm font-bold text-white disabled:opacity-40"
+          style={{
+            flex: 2,
+            background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%)",
+            boxShadow: items.length > 0 ? "0 4px 14px rgba(255,107,157,0.35)" : "none",
+          }}
         >
           שמור ארוחה
         </button>

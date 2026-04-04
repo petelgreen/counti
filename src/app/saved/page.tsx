@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import type { SavedMeal, MealEntry } from "@/lib/types";
 import BottomNav from "@/components/BottomNav";
+import Loader from "@/components/ui/loader";
 import BottomSheet from "@/components/BottomSheet";
 import SavedMealCard from "@/components/SavedMealCard";
 import SavedMealEditor from "@/components/SavedMealEditor";
@@ -81,16 +82,25 @@ export default function SavedMealsPage() {
     <div className="min-h-screen pb-24" style={{ background: "var(--color-bg)" }}>
       {/* Header */}
       <header
-        className="flex items-center justify-between px-4 pt-6 pb-4"
-        style={{ borderBottom: "1px solid var(--color-border)", background: "var(--color-surface)" }}
+        className="sticky top-0 z-40 flex items-center justify-between px-5 py-4"
+        style={{
+          background: "rgba(255,255,255,0.93)",
+          backdropFilter: "blur(16px)",
+          WebkitBackdropFilter: "blur(16px)",
+          borderBottom: "1px solid var(--color-border)",
+        }}
       >
-        <h1 className="text-lg font-bold" style={{ color: "var(--color-text-primary)" }}>
-          ארוחות שמורות
-        </h1>
+        <div>
+          <h1 className="text-lg font-black" style={{ color: "var(--color-text-primary)" }}>ארוחות שמורות</h1>
+          <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>ארוחות שתרצי לרשום שוב</p>
+        </div>
         <button
           onClick={openCreate}
-          className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold text-white"
-          style={{ background: "var(--color-primary)" }}
+          className="flex items-center gap-1.5 px-4 py-2.5 rounded-2xl text-sm font-bold text-white"
+          style={{
+            background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%)",
+            boxShadow: "0 4px 12px rgba(255,107,157,0.30)",
+          }}
         >
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M7 2v10M2 7h10" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
@@ -101,9 +111,7 @@ export default function SavedMealsPage() {
 
       <div className="px-4 py-5 space-y-3">
         {loading ? (
-          Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="rounded-2xl animate-pulse" style={{ height: 80, background: "var(--color-border)" }} />
-          ))
+          <div className="flex justify-center py-16"><Loader /></div>
         ) : meals.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <div

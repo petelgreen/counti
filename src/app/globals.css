@@ -2,27 +2,28 @@
 
 :root {
   /* Brand */
-  --color-primary:       #FF6B35;
-  --color-primary-light: #FFF0EA;
-  --color-primary-dark:  #E85520;
+  --color-primary:       #ff6b9d;
+  --color-primary-light: #fff0f5;
+  --color-primary-mid:   #ffb3ce;
+  --color-primary-dark:  #d63b6e;
 
   /* Surface */
-  --color-bg:      #F7F7F5;
+  --color-bg:      #F8F7F5;
   --color-surface: #FFFFFF;
-  --color-border:  #EFEFED;
+  --color-border:  #EBEBEA;
 
   /* Text */
-  --color-text-primary:   #1A1A1A;
-  --color-text-secondary: #6B6B6B;
-  --color-text-muted:     #A0A0A0;
+  --color-text-primary:   #111111;
+  --color-text-secondary: #555555;
+  --color-text-muted:     #999999;
 
   /* Semantic */
-  --color-success: #22C55E;
-  --color-warning: #F59E0B;
-  --color-danger:  #EF4444;
+  --color-success: #16A34A;
+  --color-warning: #D97706;
+  --color-danger:  #DC2626;
 
-  /* Macro */
-  --color-protein: #FF6B35;
+  /* Macro colors */
+  --color-protein: #ff6b9d;
   --color-carbs:   #3B82F6;
   --color-fat:     #F59E0B;
 
@@ -30,17 +31,21 @@
   --radius-xs: 6px;
   --radius-sm: 12px;
   --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-xl: 32px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-2xl: 36px;
 
-  /* Shadow */
-  --shadow-card:  0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-raised: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.05);
-  --shadow-fab:   0 10px 15px rgba(0,0,0,0.10), 0 4px 6px rgba(0,0,0,0.08);
-  --shadow-modal: 0 20px 40px rgba(0,0,0,0.15);
+  /* Shadows */
+  --shadow-card:   0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-raised: 0 4px 12px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-fab:    0 8px 24px rgba(255,107,157,0.40), 0 2px 8px rgba(255,107,157,0.20);
+  --shadow-modal:  0 24px 48px rgba(0,0,0,0.18), 0 8px 16px rgba(0,0,0,0.08);
+  --shadow-nav:    0 -1px 0 rgba(0,0,0,0.05), 0 -4px 16px rgba(0,0,0,0.04);
 
   /* Motion */
-  --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-spring:   cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-bounce:   cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth:   cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 @theme inline {
@@ -50,9 +55,7 @@
   --font-mono: var(--font-geist-mono);
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   background: var(--color-bg);
@@ -63,50 +66,72 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Bottom sheet animation */
+/* ── Animations ─────────────────────────────────────────────────────────── */
+
 @keyframes slideUp {
   from { transform: translateY(100%); }
   to   { transform: translateY(0); }
 }
-
 @keyframes slideDown {
   from { transform: translateY(0); }
   to   { transform: translateY(100%); }
 }
-
 @keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
-
 @keyframes fadeOut {
   from { opacity: 1; }
   to   { opacity: 0; }
 }
-
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes cardEnter {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes dotBounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40%           { transform: scale(1);   opacity: 1; }
+}
+@keyframes arrowBounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(6px); }
+}
+@keyframes popIn {
+  0%   { transform: scale(0.8); opacity: 0; }
+  70%  { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes fabPulse {
+  0%, 100% { box-shadow: var(--shadow-fab); }
+  50%       { box-shadow: 0 8px 32px rgba(255,107,157,0.55), 0 2px 12px rgba(255,107,157,0.30); }
+}
 @keyframes checkDraw {
   from { stroke-dashoffset: 50; }
   to   { stroke-dashoffset: 0; }
 }
 
-@keyframes cardEnter {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+/* ── Utility classes ─────────────────────────────────────────────────────── */
 
-@keyframes dotBounce {
-  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
-  40%           { transform: scale(1);   opacity: 1; }
-}
-
-@keyframes arrowBounce {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(6px); }
-}
-
-.animate-slide-up    { animation: slideUp 350ms var(--ease-spring) forwards; }
+.animate-slide-up    { animation: slideUp   350ms var(--ease-spring) forwards; }
 .animate-slide-down  { animation: slideDown 350ms var(--ease-spring) forwards; }
-.animate-fade-in     { animation: fadeIn 200ms ease forwards; }
-.animate-fade-out    { animation: fadeOut 200ms ease forwards; }
-.animate-card-enter  { animation: cardEnter 300ms ease forwards; }
-.animate-arrow-bounce { animation: arrowBounce 1.2s ease-in-out infinite; }
+.animate-fade-in     { animation: fadeIn    200ms ease forwards; }
+.animate-fade-out    { animation: fadeOut   200ms ease forwards; }
+.animate-scale-in    { animation: scaleIn   220ms var(--ease-bounce) forwards; }
+.animate-card-enter  { animation: cardEnter 280ms var(--ease-smooth) forwards; }
+.animate-pop-in      { animation: popIn     300ms var(--ease-bounce) forwards; }
+.animate-arrow-bounce{ animation: arrowBounce 1.2s ease-in-out infinite; }
+.animate-fab-pulse   { animation: fabPulse 2.5s ease-in-out infinite; }
+
+.skeleton {
+  background: linear-gradient(90deg, var(--color-border) 25%, #f0efed 50%, var(--color-border) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}

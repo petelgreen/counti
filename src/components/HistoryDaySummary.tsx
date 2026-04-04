@@ -24,51 +24,59 @@ export default function HistoryDaySummary({ meals, calorieGoal }: Props) {
   const carbsTarget   = Math.round(calorieGoal * 0.50 / 4);
   const fatTarget     = Math.round(calorieGoal * 0.25 / 9);
 
-  const pct = calorieGoal > 0 ? totals.calories / calorieGoal : 0;
+  const pct       = calorieGoal > 0 ? totals.calories / calorieGoal : 0;
+  const overGoal  = totals.calories > calorieGoal;
+
   const statusLabel =
-    meals.length === 0 ? null :
-    totals.calories > calorieGoal ? `עברת ב-${Math.round(totals.calories - calorieGoal)} קק"ל` :
-    pct >= 0.7 ? `נותרו ${Math.round(calorieGoal - totals.calories)} קק"ל` :
+    meals.length === 0         ? null :
+    overGoal                   ? `עברת ב־${Math.round(totals.calories - calorieGoal)} קק"ל` :
+    pct >= 0.7                 ? `נותרו ${Math.round(calorieGoal - totals.calories)} קק"ל` :
     `אכלת ${Math.round(totals.calories)} קק"ל`;
 
   const statusColor =
-    totals.calories > calorieGoal ? "var(--color-danger)" :
+    overGoal  ? "var(--color-danger)"  :
     pct >= 0.7 ? "var(--color-success)" :
     "var(--color-text-muted)";
 
   return (
     <div
-      className="mx-4 rounded-2xl px-4 py-4 animate-fade-in"
+      className="mx-4 rounded-3xl overflow-hidden animate-fade-in"
       style={{ background: "var(--color-surface)", boxShadow: "var(--shadow-raised)" }}
     >
-      <div className="flex items-center gap-4">
-        {/* Compact ring */}
+      {/* Top section */}
+      <div className="flex items-center gap-4 px-4 pt-4 pb-3">
         <div className="shrink-0">
           <GoalProgressRing calories={totals.calories} goal={calorieGoal} compact />
         </div>
-
-        {/* Macro bars */}
-        <div className="flex-1 space-y-2">
-          <MacroBar label="חלבון"    value={totals.protein_g} max={proteinTarget} color="var(--color-protein)" />
-          <MacroBar label="פחמימות"  value={totals.carbs_g}   max={carbsTarget}   color="var(--color-carbs)"   />
-          <MacroBar label="שומן"     value={totals.fat_g}     max={fatTarget}     color="var(--color-fat)"     />
+        <div className="flex-1 space-y-2.5 pt-1">
+          <MacroBar label="חלבון"   value={totals.protein_g} max={proteinTarget} color="var(--color-protein)" />
+          <MacroBar label="פחמימות" value={totals.carbs_g}   max={carbsTarget}   color="var(--color-carbs)"   />
+          <MacroBar label="שומן"    value={totals.fat_g}     max={fatTarget}     color="var(--color-fat)"     />
         </div>
       </div>
 
-      {/* Footer row */}
-      {statusLabel && (
-        <div
-          className="flex items-center justify-between mt-3 pt-3"
-          style={{ borderTop: "1px solid var(--color-border)" }}
-        >
-          <span className="text-xs" style={{ color: "var(--color-text-muted)" }}>
-            {meals.length} ארוחות
+      {/* Footer */}
+      <div
+        className="flex items-center justify-between px-4 py-2.5"
+        style={{ background: "var(--color-bg)", borderTop: "1px solid var(--color-border)" }}
+      >
+        <div className="flex items-center gap-1.5">
+          <span
+            className="text-xs font-bold tabular-nums"
+            style={{ color: "var(--color-text-secondary)" }}
+          >
+            {meals.length}
           </span>
+          <span className="text-xs" style={{ color: "var(--color-text-muted)" }}>
+            {meals.length === 1 ? "ארוחה" : "ארוחות"}
+          </span>
+        </div>
+        {statusLabel && (
           <span className="text-xs font-semibold" style={{ color: statusColor }}>
             {statusLabel}
           </span>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

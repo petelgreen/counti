@@ -20,7 +20,8 @@ type Action =
   | { type: "OPEN_EDIT"; entry: MealEntry }
   | { type: "CLOSE_EDIT" }
   | { type: "UPDATE_MEAL"; updated: MealEntry }
-  | { type: "DELETE_MEAL"; id: string };
+  | { type: "DELETE_MEAL"; id: string }
+  | { type: "ADD_MEAL"; meal: MealEntry };
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
@@ -36,6 +37,8 @@ function reducer(state: State, action: Action): State {
       return { ...state, allMeals: state.allMeals.map(m => m.id === action.updated.id ? action.updated : m), editingEntry: null };
     case "DELETE_MEAL":
       return { ...state, allMeals: state.allMeals.filter(m => m.id !== action.id) };
+    case "ADD_MEAL":
+      return { ...state, allMeals: [...state.allMeals, action.meal] };
     default:
       return state;
   }
@@ -110,5 +113,7 @@ export function useHistoryDay() {
     saveEdit,
     deleteEntry,
     goToToday:  () => dispatch({ type: "SELECT_DAY", date: todayStart }),
+    addMeal:    (meal: MealEntry) => dispatch({ type: "ADD_MEAL", meal }),
+    updateMeal: (updated: MealEntry) => dispatch({ type: "UPDATE_MEAL", updated }),
   };
 }

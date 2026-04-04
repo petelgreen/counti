@@ -10,28 +10,31 @@ interface Props {
 
 export default function MacroBar({ label, value, max, color, unit = "g" }: Props) {
   const pct = max > 0 ? Math.min((value / max) * 100, 100) : 0;
+  const over = value > max && max > 0;
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-2.5">
       <span
-        className="text-xs font-medium w-16 text-right shrink-0"
-        style={{ color: "var(--color-text-secondary)" }}
+        className="text-xs font-semibold shrink-0 text-right"
+        style={{ color: "var(--color-text-secondary)", width: 44 }}
       >
         {label}
       </span>
-      <div className="flex-1 h-2 rounded-full" style={{ background: "var(--color-border)" }}>
-        <div
-          className="h-2 rounded-full"
-          style={{
-            width: `${pct}%`,
-            background: color,
-            transition: "width 600ms ease",
-          }}
-        />
+      <div className="flex-1 relative">
+        <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "var(--color-border)" }}>
+          <div
+            className="h-1.5 rounded-full"
+            style={{
+              width: `${pct}%`,
+              background: over ? "var(--color-danger)" : color,
+              transition: "width 600ms var(--ease-smooth)",
+            }}
+          />
+        </div>
       </div>
       <span
-        className="text-xs font-semibold w-12 text-left shrink-0"
-        style={{ color: "var(--color-text-primary)" }}
+        className="text-xs font-bold shrink-0 text-left tabular-nums"
+        style={{ color: over ? "var(--color-danger)" : "var(--color-text-primary)", width: 38 }}
       >
         {Math.round(value)}{unit}
       </span>
