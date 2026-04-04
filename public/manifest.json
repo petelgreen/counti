@@ -1,0 +1,24 @@
+{
+  "name": "קאונטי — מעקב קלוריות",
+  "short_name": "קאונטי",
+  "description": "מעקב קלוריות ומאקרו מבוסס בינה מלאכותית",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a0812",
+  "theme_color": "#d63b6e",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
