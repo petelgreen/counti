@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   serverExternalPackages: ["bcryptjs"],
+  turbopack: {
+    root: __dirname,
+  },
 };
 
 export default nextConfig;

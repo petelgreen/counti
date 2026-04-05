@@ -116,7 +116,7 @@ function LoginForm() {
           </svg>
         </div>
         <h1 className="text-3xl font-bold mb-1" style={{ color: "var(--color-text-primary)" }}>קאונטי</h1>
-        <p className="text-sm font-medium" style={{ color: "var(--color-primary-dark)" }}>מעקב קלוריות חכם מבוסס AI</p>
+        <p className="text-sm font-medium" style={{ color: "var(--color-text-secondary)" }}>מעקב קלוריות חכם מבוסס AI</p>
       </div>
 
       {/* Card */}
