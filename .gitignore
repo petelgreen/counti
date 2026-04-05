@@ -145,3 +145,7 @@ data/
 node_modules/
 
 .vercel
+
+# Claude Code local settings (may contain secrets)
+.claude/settings.local.json
+.claude/worktrees/
