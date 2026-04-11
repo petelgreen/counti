@@ -82,7 +82,7 @@ function LoginForm() {
           className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-lg"
           style={{ background: "var(--color-primary)" }}
         >
-          <svg viewBox="0 0 512 512" width="44" height="44">
+          <svg viewBox="87 90 348 348" width="44" height="44">
             {/* Row 1 */}
             <circle cx="241" cy="200" r="31" fill="white" opacity="0.95"/>
             <circle cx="273" cy="200" r="31" fill="white" opacity="0.95"/>
