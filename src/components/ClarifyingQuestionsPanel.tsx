@@ -130,7 +130,7 @@ function QuantityQuestion({ question, onAnswer }: QuantityProps) {
           className="text-base font-semibold"
           style={{ color: isNone ? "var(--color-text-muted)" : "var(--color-primary)" }}
         >
-          {isNone ? "0 קק\u05b4\u05dfl" : `≈\u00a0${calories} קק\u05b4\u05dfl`}
+          {isNone ? `0 קק"ל` : `≈\u00a0${calories} קק"ל`}
         </p>
       </div>
 
