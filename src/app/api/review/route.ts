@@ -4,7 +4,7 @@ import type { MealItem } from "@/lib/types";
 
 export const runtime = "nodejs";
 
-const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const getClient = () => new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function POST(req: NextRequest) {
   const { items, timestamp } = await req.json() as { items: MealItem[]; timestamp?: number };
@@ -38,7 +38,7 @@ ${mealDesc}
 improved = גרסה משופרת של הארוחה (הורד קלוריות / הוסף חלבון). שמור על פריטים דומים אך בריאים יותר.`;
 
   try {
-    const completion = await client.chat.completions.create({
+    const completion = await getClient().chat.completions.create({
       model: "gpt-4o",
       messages: [{ role: "user", content: prompt }],
       max_tokens: 600,

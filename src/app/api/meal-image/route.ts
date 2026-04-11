@@ -3,7 +3,7 @@ import OpenAI from "openai";
 
 export const runtime = "nodejs";
 
-const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const getClient = () => new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function POST(req: NextRequest) {
   const { mealName } = await req.json() as { mealName: string };
@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
   // Translate meal name to a simple English search keyword
   let keyword = "food";
   try {
-    const completion = await client.chat.completions.create({
+    const completion = await getClient().chat.completions.create({
       model: "gpt-4o-mini",
       messages: [{
         role: "user",

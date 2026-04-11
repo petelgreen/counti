@@ -4,7 +4,7 @@ import type { AnalyzeResponse } from "@/lib/types";
 
 export const runtime = "nodejs";
 
-const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const getClient = () => new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 const SYSTEM_PROMPT = `You are a nutrition estimator. The user will describe food they ate in Hebrew, optionally with an image.
 
@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
   });
 
   try {
-    const completion = await client.chat.completions.create({
+    const completion = await getClient().chat.completions.create({
       model: "gpt-4o",
       messages: [
         { role: "system", content: SYSTEM_PROMPT },

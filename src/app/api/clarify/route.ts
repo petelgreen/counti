@@ -4,7 +4,7 @@ import type { AnalyzeResponse, ClarifyQuestion, ClarifyAnswer } from "@/lib/type
 
 export const runtime = "nodejs";
 
-const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const getClient = () => new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 const PHASE1_SYSTEM = `אתה מנתח תזונה. המשתמש תיאר ארוחה בעברית.
 
@@ -110,7 +110,7 @@ export async function POST(req: NextRequest) {
     const userContent = `תיאור המשתמש: ${text}\n\nשאלות ותשובות:\n${qaBlock}`;
 
     try {
-      const completion = await client.chat.completions.create({
+      const completion = await getClient().chat.completions.create({
         model: "gpt-4o",
         messages: [
           { role: "system", content: PHASE2_SYSTEM },
@@ -153,7 +153,7 @@ export async function POST(req: NextRequest) {
   userContent.push({ type: "text", text: text.trim() });
 
   try {
-    const completion = await client.chat.completions.create({
+    const completion = await getClient().chat.completions.create({
       model: "gpt-4o",
       messages: [
         { role: "system", content: PHASE1_SYSTEM },
