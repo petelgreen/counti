@@ -36,11 +36,13 @@ export default function OnboardingScreen({ onComplete }: Props) {
   const [accuracyLevel, setAccuracyLevel] = useState<AccuracyLevel>("medium");
   const [calorieGoal, setCalorieGoal] = useState(2000);
   const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState("");
 
   async function handleFinish() {
     setSaving(true);
+    setSaveError("");
     try {
-      await fetch("/api/settings", {
+      const res = await fetch("/api/settings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -49,7 +51,13 @@ export default function OnboardingScreen({ onComplete }: Props) {
           accuracy_level: accuracyLevel,
         }),
       });
+      if (!res.ok) {
+        setSaveError("שגיאה בשמירה, נסי שוב");
+        return;
+      }
       onComplete(calorieGoal, fitnessGoal ?? undefined, accuracyLevel);
+    } catch {
+      setSaveError("שגיאה בשמירה, נסי שוב");
     } finally {
       setSaving(false);
     }
@@ -245,6 +253,9 @@ export default function OnboardingScreen({ onComplete }: Props) {
                 {saving ? "שומר..." : "בוא נתחיל!"}
               </button>
             </div>
+            {saveError && (
+              <p className="text-center text-sm mt-2" style={{ color: "red" }}>{saveError}</p>
+            )}
           </>
         )}
       </div>
