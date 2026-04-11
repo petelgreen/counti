@@ -2,7 +2,7 @@ import NextAuth, { DefaultSession } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
-import { getUserByEmail, createUser } from "@/lib/db";
+import { getUserByEmail } from "@/lib/db";
 
 declare module "next-auth" {
   interface Session {
@@ -14,22 +14,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: { signIn: "/login" },
   session: { strategy: "jwt" },
   callbacks: {
-    async signIn({ user, account }) {
-      if (account?.provider === "google" && user.email) {
-        const existing = await getUserByEmail(user.email);
-        if (!existing) {
-          await createUser({
-            id: user.id ?? crypto.randomUUID(),
-            email: user.email,
-            name: user.name ?? user.email,
-            password_hash: null,
-          });
-        } else {
-          user.id = existing.id;
-        }
-      }
-      return true;
-    },
     jwt({ token, user }) {
       if (user?.id) token.sub = user.id;
       return token;
