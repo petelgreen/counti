@@ -82,37 +82,27 @@ function LoginForm() {
           className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-lg"
           style={{ background: "var(--color-primary)" }}
         >
-          <svg viewBox="87 90 348 348" width="44" height="44">
-            {/* Row 1 */}
-            <circle cx="241" cy="200" r="31" fill="white" opacity="0.95"/>
-            <circle cx="273" cy="200" r="31" fill="white" opacity="0.95"/>
-            {/* Row 2 */}
-            <circle cx="202" cy="244" r="31" fill="white" opacity="0.80"/>
-            <circle cx="241" cy="244" r="31" fill="white" opacity="0.95"/>
-            <circle cx="273" cy="244" r="31" fill="white" opacity="0.95"/>
-            <circle cx="312" cy="244" r="31" fill="white" opacity="0.80"/>
-            {/* Row 3 */}
-            <circle cx="183" cy="286" r="31" fill="white" opacity="0.75"/>
-            <circle cx="222" cy="286" r="31" fill="white" opacity="0.95"/>
-            <circle cx="261" cy="286" r="31" fill="white" opacity="0.95"/>
-            <circle cx="300" cy="286" r="31" fill="white" opacity="0.95"/>
-            <circle cx="339" cy="286" r="31" fill="white" opacity="0.75"/>
-            {/* Row 4 */}
-            <circle cx="202" cy="326" r="31" fill="white" opacity="0.80"/>
-            <circle cx="241" cy="326" r="31" fill="white" opacity="0.95"/>
-            <circle cx="273" cy="326" r="31" fill="white" opacity="0.95"/>
-            <circle cx="312" cy="326" r="31" fill="white" opacity="0.80"/>
-            {/* Row 5 */}
-            <circle cx="222" cy="364" r="29" fill="white" opacity="0.90"/>
-            <circle cx="257" cy="364" r="29" fill="white" opacity="0.95"/>
-            <circle cx="292" cy="364" r="29" fill="white" opacity="0.80"/>
-            {/* Row 6 */}
-            <circle cx="238" cy="399" r="27" fill="white" opacity="0.90"/>
-            <circle cx="274" cy="399" r="27" fill="white" opacity="0.90"/>
+          <svg viewBox="0 0 44 48" width="44" height="44">
             {/* Leaves */}
-            <path d="M257 176 C253 158 249 138 257 118 C265 138 261 158 257 176Z" fill="white" opacity="0.70"/>
-            <path d="M236 181 C217 165 209 144 216 124 C229 132 235 152 236 181Z" fill="white" opacity="0.60"/>
-            <path d="M278 181 C297 165 305 144 298 124 C285 132 279 152 278 181Z" fill="white" opacity="0.60"/>
+            <path d="M22 10 C21 6 20 2 22 0 C24 2 23 6 22 10Z" fill="white" opacity="0.80"/>
+            <path d="M17 11 C13 7 12 3 15 1 C17 3 17 7 17 11Z" fill="white" opacity="0.65"/>
+            <path d="M27 11 C31 7 32 3 29 1 C27 3 27 7 27 11Z" fill="white" opacity="0.65"/>
+            {/* Row 1 */}
+            <circle cx="17" cy="16" r="5" fill="white" opacity="0.95"/>
+            <circle cx="27" cy="16" r="5" fill="white" opacity="0.95"/>
+            {/* Row 2 */}
+            <circle cx="11" cy="24" r="5" fill="white" opacity="0.85"/>
+            <circle cx="22" cy="24" r="5" fill="white" opacity="0.95"/>
+            <circle cx="33" cy="24" r="5" fill="white" opacity="0.85"/>
+            {/* Row 3 */}
+            <circle cx="11" cy="33" r="5" fill="white" opacity="0.85"/>
+            <circle cx="22" cy="33" r="5" fill="white" opacity="0.95"/>
+            <circle cx="33" cy="33" r="5" fill="white" opacity="0.85"/>
+            {/* Row 4 */}
+            <circle cx="17" cy="41" r="4.5" fill="white" opacity="0.90"/>
+            <circle cx="27" cy="41" r="4.5" fill="white" opacity="0.90"/>
+            {/* Row 5 */}
+            <circle cx="22" cy="47" r="4" fill="white" opacity="0.80"/>
           </svg>
         </div>
         <h1 className="text-3xl font-bold mb-1" style={{ color: "var(--color-text-primary)" }}>קאונטי</h1>
