@@ -306,7 +306,7 @@ export default function SettingsPage() {
           <SectionHeader icon="ℹ️" title="אודות" />
           <div className="space-y-3">
             {[
-              { label: "גרסה",    value: "1.0.8",  icon: "📦" },
+              { label: "גרסה",    value: "1.0.9",  icon: "📦" },
               { label: "מנוע AI", value: "GPT-4o", icon: "🧠" },
               { label: "אחסון",   value: "ענן",    icon: "☁️" },
             ].map(({ label, value, icon }) => (
