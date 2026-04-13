@@ -35,10 +35,10 @@ export default function SettingsPage() {
   const { data: session } = useSession();
   const firstName = session?.user?.name?.split(" ")[0] ?? "";
 
-  const [goal, setGoal]                   = useState(2000);
-  const [fitnessGoal, setFitnessGoal]     = useState<FitnessGoal | null>(null);
-  const [accuracyLevel, setAccuracyLevel] = useState<AccuracyLevel>("medium");
-  const [saved, setSaved]                 = useState(false);
+  const [goal, setGoal]                           = useState(2000);
+  const [fitnessGoal, setFitnessGoal]             = useState<FitnessGoal | null>(null);
+  const [accuracyLevel, setAccuracyLevel]         = useState<AccuracyLevel>("medium");
+  const [saved, setSaved]                         = useState(false);
   const saveTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {

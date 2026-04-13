@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json();
   await saveSettings(session.user.id, {
-    calorie_goal:   body.calorie_goal   ? parseInt(body.calorie_goal, 10) : undefined,
+    calorie_goal:   body.calorie_goal ? parseInt(body.calorie_goal, 10) : undefined,
     fitness_goal:   body.fitness_goal,
     accuracy_level: body.accuracy_level,
   });

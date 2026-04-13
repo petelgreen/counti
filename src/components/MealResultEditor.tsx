@@ -126,6 +126,7 @@ function MealItemCard({
 
 export default function MealResultEditor({ result, inputText, onSave, onDiscard }: Props) {
   const [items, setItems] = useState<MealItem[]>(result.items.map((i) => ({ ...i })));
+  const [saving, setSaving] = useState(false);
 
   function updateItem(index: number, field: keyof MealItem, raw: string) {
     const updated = [...items];
@@ -212,16 +213,20 @@ export default function MealResultEditor({ result, inputText, onSave, onDiscard 
           ביטול
         </button>
         <button
-          onClick={() => onSave({ ...result, items, totals }, inputText)}
-          disabled={items.length === 0}
+          onClick={async () => {
+            if (saving) return;
+            setSaving(true);
+            await onSave({ ...result, items, totals }, inputText);
+          }}
+          disabled={items.length === 0 || saving}
           className="py-3 px-6 rounded-2xl text-sm font-bold text-white disabled:opacity-40"
           style={{
             flex: 2,
             background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%)",
-            boxShadow: items.length > 0 ? "0 4px 14px rgba(255,107,157,0.35)" : "none",
+            boxShadow: items.length > 0 && !saving ? "0 4px 14px rgba(255,107,157,0.35)" : "none",
           }}
         >
-          שמור ארוחה
+          {saving ? "שומר..." : "שמור ארוחה"}
         </button>
       </div>
     </div>

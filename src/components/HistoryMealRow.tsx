@@ -31,7 +31,11 @@ export default function HistoryMealRow({ entry, onEdit, onDelete }: Props) {
   return (
     <div
       className="relative rounded-2xl overflow-hidden animate-card-enter"
-      style={{ background: "var(--color-surface)", boxShadow: "var(--shadow-card)" }}
+      style={{
+        background: "var(--color-surface)",
+        boxShadow: "var(--shadow-card)",
+        zIndex: confirming ? 60 : undefined,
+      }}
     >
       <div className="flex items-center gap-3 px-4 py-3.5">
 
@@ -118,38 +122,31 @@ export default function HistoryMealRow({ entry, onEdit, onDelete }: Props) {
       {/* Confirm delete overlay */}
       {confirming && (
         <div
-          className="absolute inset-0 flex items-center justify-center animate-fade-in"
-          style={{ background: "rgba(255,255,255,0.97)", backdropFilter: "blur(4px)" }}
+          className="absolute inset-0 flex flex-col items-center justify-center animate-fade-in gap-3 px-5"
+          style={{
+            background: "rgba(255,255,255,0.98)",
+            backdropFilter: "blur(6px)",
+            WebkitBackdropFilter: "blur(6px)",
+          }}
         >
-          <div className="text-center px-5">
-            <div
-              className="w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-3"
-              style={{ background: "#FEE2E2" }}
+          <p className="text-sm font-bold" style={{ color: "var(--color-text-primary)" }}>
+            למחוק את הארוחה?
+          </p>
+          <div className="flex gap-2 w-full">
+            <button
+              onClick={() => setConfirming(false)}
+              className="flex-1 py-3 rounded-2xl text-sm font-semibold"
+              style={{ border: "1.5px solid var(--color-border)", color: "var(--color-text-secondary)" }}
             >
-              <svg width="18" height="18" viewBox="0 0 14 14" fill="none">
-                <path d="M2.5 3.5h9M5 3.5V2.5h4v1M4 3.5v7.5h6V3.5" stroke="var(--color-danger)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
-            <p className="text-sm font-bold mb-1" style={{ color: "var(--color-text-primary)" }}>
-              למחוק את הארוחה?
-            </p>
-            <p className="text-xs mb-4" style={{ color: "var(--color-text-muted)" }}>לא ניתן לשחזר</p>
-            <div className="flex gap-2">
-              <button
-                onClick={() => setConfirming(false)}
-                className="flex-1 py-2.5 rounded-xl text-sm font-semibold"
-                style={{ border: "1.5px solid var(--color-border)", color: "var(--color-text-secondary)" }}
-              >
-                ביטול
-              </button>
-              <button
-                onClick={() => onDelete(entry.id)}
-                className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-white"
-                style={{ background: "var(--color-danger)" }}
-              >
-                מחק
-              </button>
-            </div>
+              ביטול
+            </button>
+            <button
+              onClick={() => { onDelete(entry.id); setConfirming(false); }}
+              className="flex-1 py-3 rounded-2xl text-sm font-bold text-white"
+              style={{ background: "var(--color-danger)" }}
+            >
+              מחק
+            </button>
           </div>
         </div>
       )}

@@ -161,7 +161,7 @@ export default function Home() {
   }
 
   const logSheetTitle =
-    logState.status === "reviewing" ? "בדוק ועדוך" :
+    logState.status === "reviewing" ? "בדוק וערוך" :
     logState.status === "editing"   ? "עריכת ארוחה" :
     "רשום ארוחה";
 
@@ -327,8 +327,9 @@ export default function Home() {
       {/* Motivation toast */}
       {motivationMsg && (
         <div
-          className="fixed bottom-28 inset-x-4 z-50 animate-scale-in rounded-3xl px-5 py-4 text-center text-sm font-semibold text-white"
+          className="fixed inset-x-4 z-50 animate-scale-in rounded-3xl px-5 py-4 text-center text-sm font-semibold text-white"
           style={{
+            bottom: "calc(68px + 16px + 52px + 16px)",
             background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%)",
             boxShadow: "0 8px 24px rgba(255,107,157,0.40)",
           }}
