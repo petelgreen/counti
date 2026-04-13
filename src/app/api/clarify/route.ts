@@ -152,7 +152,7 @@ export async function POST(req: NextRequest) {
   if (image_base64) {
     userContent.push({
       type: "image_url",
-      image_url: { url: image_base64, detail: "low" },
+      image_url: { url: image_base64, detail: "auto" },
     });
   }
 
