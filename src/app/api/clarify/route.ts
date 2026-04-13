@@ -92,10 +92,11 @@ export async function POST(req: NextRequest) {
     answers?: ClarifyAnswer[];
   };
 
-  const { text, image_base64, answers } = body;
+  const { image_base64, answers } = body;
+  const text = body.text?.trim() || (image_base64 ? "נתח את הארוחה בתמונה" : "");
 
-  if (!text?.trim()) {
-    return NextResponse.json({ error: "text is required" }, { status: 400 });
+  if (!text) {
+    return NextResponse.json({ error: "text or image is required" }, { status: 400 });
   }
 
   // ── Phase 2: finalize with answers ──────────────────────────────────────────

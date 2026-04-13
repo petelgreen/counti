@@ -31,6 +31,7 @@ export default function Home() {
   const [logSheetOpen, setLogSheetOpen] = useState(false);
   const [savedMeals, setSavedMeals] = useState<SavedMeal[]>([]);
   const [motivationMsg, setMotivationMsg] = useState<string | null>(null);
+  const [toastExiting, setToastExiting] = useState(false);
   const [fitnessGoal, setFitnessGoal] = useState<DailySettings["fitness_goal"]>(null);
 
   const name = firstName ? `${firstName}, ` : "";
@@ -123,7 +124,9 @@ export default function Home() {
     setLogState({ status: "idle" });
     setLogSheetOpen(false);
     const msg = MOTIVATION[Math.floor(Math.random() * MOTIVATION.length)];
+    setToastExiting(false);
     setMotivationMsg(msg);
+    setTimeout(() => setToastExiting(true), 3200);
     setTimeout(() => setMotivationMsg(null), 4000);
   }
 
@@ -156,7 +159,9 @@ export default function Home() {
     addMeal(entry);
     setLogSheetOpen(false);
     const msg = MOTIVATION[Math.floor(Math.random() * MOTIVATION.length)];
+    setToastExiting(false);
     setMotivationMsg(msg);
+    setTimeout(() => setToastExiting(true), 3200);
     setTimeout(() => setMotivationMsg(null), 4000);
   }
 
@@ -327,14 +332,30 @@ export default function Home() {
       {/* Motivation toast */}
       {motivationMsg && (
         <div
-          className="fixed inset-x-4 z-50 animate-scale-in rounded-3xl px-5 py-4 text-center text-sm font-semibold text-white"
+          className={toastExiting ? "toast-exit" : ""}
           style={{
-            bottom: "calc(68px + 16px + 52px + 16px)",
-            background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%)",
-            boxShadow: "0 8px 24px rgba(255,107,157,0.40)",
+            position: "fixed",
+            top: "calc(env(safe-area-inset-top, 0px) + 16px)",
+            left: "50%",
+            transform: "translateX(-50%)",
+            zIndex: 60,
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            borderRadius: 999,
+            padding: "10px 20px",
+            fontSize: 13,
+            fontWeight: 600,
+            color: "white",
+            whiteSpace: "nowrap",
+            maxWidth: "calc(100vw - 48px)",
+            background: "linear-gradient(135deg, #ff8fab 0%, #fb6f92 100%)",
+            boxShadow: "0 4px 20px rgba(251,111,146,0.38)",
+            animation: toastExiting ? undefined : "toastDropIn 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards",
           }}
         >
-          {motivationMsg}
+          <span>✨</span>
+          <span dir="rtl">{motivationMsg}</span>
         </div>
       )}
 
